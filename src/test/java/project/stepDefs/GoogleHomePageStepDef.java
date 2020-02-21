@@ -12,12 +12,7 @@ import project.settings.Browser;
 
 public class GoogleHomePageStepDef extends Steps {
 
-    @Given("an opened browser with a base URL")
-    public void anOpenedBrowserWithABaseURL() {
-        Browser.getDriver().navigate().to("https://www.google.com/");
-    }
-
-    @When("user searches by keyword $Automation")
+    @When("user searches by keyword $keyword")
     public void userSearchesByKeyword(String keyword){
         new GoogleHomePage().Search(keyword);
     }
