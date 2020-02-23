@@ -9,7 +9,9 @@ import org.jbehave.core.junit.JUnitStories;
 import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.*;
+import project.stepDefs.FiltersStepDef;
 import project.stepDefs.GoogleHomePageStepDef;
+import project.stepDefs.MainStepDef;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +34,11 @@ public class TestsRun2 extends JUnitStories {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        ArrayList<Steps> stepFileList = new ArrayList<Steps>();
+//        ArrayList<Steps> stepFileList = new ArrayList<Steps>();
+        ArrayList<Steps> stepFileList = new ArrayList<>();
         stepFileList.add(new GoogleHomePageStepDef());
+        stepFileList.add(new FiltersStepDef());
+        stepFileList.add(new MainStepDef());
 
         return new InstanceStepsFactory(configuration(), stepFileList);
     }
@@ -43,7 +48,8 @@ public class TestsRun2 extends JUnitStories {
         return new StoryFinder().
                 findPaths(CodeLocations.codeLocationFromClass(
                         this.getClass()),
-                        Arrays.asList("**/*.story"),
+//                        Arrays.asList("**/*.story"),
+                        Arrays.asList("**/filters*.story"),
                         Arrays.asList(""));
 
     }
