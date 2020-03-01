@@ -7,6 +7,9 @@ As a user
 I want to login to the site
 So that I can order products online
 
+!-- Background:
+!-- Given an opened browser with an https://rozetka.com.ua/
+
 Scenario: User can successfully log in to the cabinet
 Given an opened browser with an https://rozetka.com.ua/
 When page home page is fully loaded
