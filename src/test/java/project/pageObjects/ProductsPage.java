@@ -7,12 +7,14 @@ import project.pageObjects.components.FiltersPanel;
 
 import java.util.List;
 
+import static project.helpers.WaitHelpers.waitForPageSourceToBeCompletelyLoaded;
+
 public class ProductsPage extends BasePage{
 
     @FindBy(xpath = "//aside[@class='sidebar']")
     private WebElement filtersPanel;
 
-    @FindBy(xpath = "")
+    @FindBy(xpath = "//li[contains(@class,'catalog-grid__cell')]")
     private List<WebElement> productsResultsList;
 
     public FiltersPanel getFiltersPanel()
@@ -22,8 +24,9 @@ public class ProductsPage extends BasePage{
         return new FiltersPanel(filtersPanel);
     }
 
-//    public List<ProductTile> getProductsResults()
-//    {
-//        return
-//    }
+    public List<WebElement> getProductsList()
+    {
+        WaitHelpers.waitDefaultTimeToWait();
+        return productsResultsList;
+    }
 }

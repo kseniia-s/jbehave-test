@@ -1,6 +1,10 @@
 package project.pageObjects;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import project.helpers.WaitHelpers;
+import project.settings.Browser;
 
 public abstract class BaseItem {
 
