@@ -1,5 +1,6 @@
 package project.pageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import project.helpers.WaitHelpers;
@@ -7,9 +8,9 @@ import project.pageObjects.components.FiltersPanel;
 
 import java.util.List;
 
-import static project.helpers.WaitHelpers.waitForPageSourceToBeCompletelyLoaded;
+public class ProductsPage extends BasePage {
 
-public class ProductsPage extends BasePage{
+    private By addToCartIcon = By.xpath("//app-buy-button");
 
     @FindBy(xpath = "//aside[@class='sidebar']")
     private WebElement filtersPanel;
@@ -17,16 +18,20 @@ public class ProductsPage extends BasePage{
     @FindBy(xpath = "//li[contains(@class,'catalog-grid__cell')]")
     private List<WebElement> productsResultsList;
 
-    public FiltersPanel getFiltersPanel()
-    {
+    public FiltersPanel getFiltersPanel() {
         WaitHelpers.waitDefaultTimeToWait();
 
         return new FiltersPanel(filtersPanel);
     }
 
-    public List<WebElement> getProductsList()
-    {
+    public List<WebElement> getProductsList() {
         WaitHelpers.waitDefaultTimeToWait();
         return productsResultsList;
+    }
+
+    public void addProductsToCart(Integer productsNumber) {
+        for (int i = 0; i < productsNumber; i++) {
+            getProductsList().get(i).findElement(addToCartIcon).click();
+        }
     }
 }

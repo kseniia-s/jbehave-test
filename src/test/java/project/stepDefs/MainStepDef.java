@@ -1,12 +1,14 @@
 package project.stepDefs;
 
 import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
 import project.pageObjects.HomePage;
+import project.pageObjects.ProductsPage;
 import project.pageObjects.components.popups.LoginWindow;
 import project.settings.Browser;
 import project.settings.ScenarioContext;
@@ -25,7 +27,8 @@ public class MainStepDef extends Steps {
             case "home page":
                 new HomePage();
                 break;
-            case "":
+            case "products":
+                new ProductsPage();
                 break;
             default:
         }
@@ -57,10 +60,19 @@ public class MainStepDef extends Steps {
         Assert.assertTrue("The modal window with login form is not shown", loginWindow.isShown());
     }
 
+    @Given("<user> Kseniia is logged in")
+    @Then("user <user> is logged in")
+    public void userUserIsLoggedIn(@Named("user") String user) {
+        Boolean userIsLoggedIn = ScenarioContext.context().getCurrentPage().getHeader().isUserLoggedIn(user);
+
+        Assert.assertTrue("The user is not logged in.", userIsLoggedIn);
+    }
+
     @Then("user $user is logged in")
     public void userIsLoggedIn(String user) {
         Boolean userIsLoggedIn = ScenarioContext.context().getCurrentPage().getHeader().isUserLoggedIn(user);
 
         Assert.assertTrue("The user is not logged in.", userIsLoggedIn);
     }
+
 }

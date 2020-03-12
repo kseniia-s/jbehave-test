@@ -1,5 +1,6 @@
 package project.stepDefs;
 
+import org.assertj.core.api.Assertions;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
@@ -14,7 +15,6 @@ import java.util.List;
 public class SearchStepDef extends Steps {
     @When("user types $searchingKeyword in the search field")
     public void userTypesWordInTheSearchField(String searchingKeyword) {
-        new ScenarioContext();
         BasePage page = ScenarioContext.context().getCurrentPage();
         page.getHeader().searchByKeyword(searchingKeyword);
     }
@@ -26,7 +26,7 @@ public class SearchStepDef extends Steps {
 
     @Then("the products are shown")
     public void theProductsAreShown() {
-        List<WebElement> products = new ProductsPage().getProductsList();
-        Assert.assertTrue("", products.size() > 0);
+        List<WebElement> products = ((ProductsPage)ScenarioContext.context().getCurrentPage()).getProductsList();
+        Assertions.assertThat(products.size()).isGreaterThan(0);
     }
 }
