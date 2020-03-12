@@ -1,5 +1,6 @@
 package project.runners;
 
+import org.jbehave.core.annotations.AfterStories;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.io.CodeLocations;
@@ -9,29 +10,27 @@ import org.jbehave.core.junit.JUnitStories;
 import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.*;
-import project.stepDefs.FiltersStepDef;
-import project.stepDefs.GoogleHomePageStepDef;
-import project.stepDefs.MainStepDef;
-import project.stepDefs.SearchStepDef;
+import project.settings.Browser;
+import project.stepDefs.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class TestsRun2 extends JUnitStories {
 
     @Override
     public Configuration configuration() {
+//        new MostUsefulConfiguration().useCompositePaths(Collections.singletonList("Composite.steps"));
         return new MostUsefulConfiguration()
-                .useStoryLoader(
-                        new LoadFromClasspath(this.getClass().getClassLoader()))
-                .useStoryReporterBuilder(
-                        new StoryReporterBuilder()
-                                .withDefaultFormats()
-                                .withFormats(Format.HTML, Format.CONSOLE)
-                                .withRelativeDirectory("jbehave-report")
-                                .withFailureTrace(true)
-                );
+                .useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()));
+//                .useStoryReporterBuilder(new StoryReporterBuilder()
+//                        .withDefaultFormats()
+//                        .withFormats(Format.HTML, Format.CONSOLE)
+//                        .withRelativeDirectory("jbehave-report")
+//                        .withFailureTrace(true)
+//                );
 // Не работает репортер
 //                .useStoryReporterBuilder(
 //                        new StoryReporterBuilder()
@@ -54,6 +53,7 @@ public class TestsRun2 extends JUnitStories {
         stepFileList.add(new FiltersStepDef());
         stepFileList.add(new MainStepDef());
         stepFileList.add(new SearchStepDef());
+        stepFileList.add(new CartStepDef());
 
         return new InstanceStepsFactory(configuration(), stepFileList);
     }
@@ -64,9 +64,15 @@ public class TestsRun2 extends JUnitStories {
                 findPaths(CodeLocations.codeLocationFromClass(
                         this.getClass()),
 //                        Arrays.asList("**/*.story"),
-                        Arrays.asList("**/main*.story"),
+                        Arrays.asList("**/cart*.story"),
                         Arrays.asList(""));
 
+    }
+
+    @AfterStories
+    public void tearDown() {
+        if(Browser.getDriver() != null)
+            Browser.getDriver().quit();
     }
 
 //    public Automation() {
@@ -119,4 +125,5 @@ public class TestsRun2 extends JUnitStories {
 //        // varargs, can have more that one steps classes
 //        return new InstanceStepsFactory(configuration(), Arrays.asList("**/*.story"));
 //    }
+
 }

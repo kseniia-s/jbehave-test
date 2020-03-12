@@ -7,6 +7,7 @@ import org.jbehave.core.steps.Steps;
 import project.pageObjects.HomePage;
 import project.pageObjects.ProductsPage;
 import project.pageObjects.components.enums.FilterTypeEnum;
+import project.settings.ScenarioContext;
 
 import java.util.Map;
 import java.util.SortedMap;
@@ -15,14 +16,15 @@ public class FiltersStepDef extends Steps {
 
     @When("user hover on the $category category")
     public void userHoverOnTheCategory(String category) {
-        new HomePage().hoverOnMainCategory(category);
+        ((HomePage)ScenarioContext.context().getCurrentPage()).hoverOnMainCategory(category);
     }
 
     @When("user clicks on the $category category")
     public void userClicksOnTheCategory(String category) {
-        new HomePage().clickOnProductsCategory(category);
+        ((HomePage)ScenarioContext.context().getCurrentPage()).clickOnProductsCategory(category);
     }
 
+    @SuppressWarnings("unchecked")
     @When("user applies filters: $filters")
     public void userAppliesFilters(ExamplesTable filters) {
         SortedMap<FilterTypeEnum, Object> filterMap = new PresortedMap();

@@ -2,6 +2,10 @@ package project.settings;
 
 public class ScenarioContext {
 
+//    static {
+//        new ScenarioContext();
+//    }
+
     static final class ContextLocal extends ThreadLocal<Context> {
 
         @Override

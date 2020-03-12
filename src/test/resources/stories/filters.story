@@ -7,7 +7,8 @@ So that I can achieve a business goal
 
 Scenario: Filtering is working as expected
 Given an opened browser with an https://rozetka.com.ua/
-When user hover on the Ноутбуки и компьютеры category
+When page home page is fully loaded
+And user hover on the Ноутбуки и компьютеры category
 And user clicks on the Ноутбуки category
 And user applies filters:
 |filter|value|
@@ -18,4 +19,4 @@ And user applies filters:
 |Объем оперативной памяти|16 - 24 ГБ|
 |Операционная система|Windows 10 Home|
 |Тип оперативной памяти|DDR4|
-!-- Then products are shown according to the filters
+Then the products are shown

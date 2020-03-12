@@ -10,18 +10,10 @@ public class LoginWindow extends BaseItem {
 
     private By emailInputField = By.xpath("//input[@formcontrolname='login']");
     private By passwordInputField = By.xpath("//input[@formcontrolname='password']");
-    private By loginPopup = By.xpath("//div[contains(@class,'modal__holder')]");
-
-    public LoginWindow() {
-        WaitHelpers.waitUntilElementIsVisible(loginPopup);
-    }
 
     public LoginWindow(WebElement root) {
         super(root);
-    }
-
-    public WebElement getLoginPopup() {
-        return Browser.getDriver().findElement(loginPopup);
+        WaitHelpers.waitDefaultTimeToWait();
     }
 
     public void fillLoginForm(String email, String password) {
