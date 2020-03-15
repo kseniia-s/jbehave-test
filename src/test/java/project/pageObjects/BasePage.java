@@ -7,7 +7,6 @@ import org.openqa.selenium.support.PageFactory;
 import project.pageObjects.components.Header;
 import project.pageObjects.components.popups.Cart;
 import project.pageObjects.components.popups.LoginWindow;
-import project.settings.Browser;
 import project.settings.ScenarioContext;
 
 import static project.helpers.WaitHelpers.*;
@@ -21,16 +20,16 @@ public abstract class BasePage {
     BasePage() {
         waitPageToBeCompletelyLoaded();
         waitForPageSourcesToBeCompletelyLoaded();
-        PageFactory.initElements(Browser.getDriver(), this);
+        PageFactory.initElements(ScenarioContext.context().getBrowser(), this);
         ScenarioContext.context().setCurrentPage(this);
     }
 
     public Header getHeader() {
-        return new Header(Browser.getDriver().findElement(header));
+        return new Header(ScenarioContext.context().getBrowser().findElement(header));
     }
 
     public LoginWindow getLoginPopup() {
-        return new LoginWindow(Browser.getDriver().findElement(loginPopup));
+        return new LoginWindow(ScenarioContext.context().getBrowser().findElement(loginPopup));
     }
 
     public Cart getCart() {

@@ -6,19 +6,20 @@ import project.helpers.WaitHelpers;
 import project.helpers.CollectionUtils;
 import project.pageObjects.BaseItem;
 import project.pageObjects.components.CartProduct;
-import project.settings.Browser;
 
 import java.util.List;
 
 public class Cart extends BaseItem {
 
-    private By plusIcon = By.xpath("");
-    private By minusIcon = By.xpath("");
     private By cartProducts = By.xpath("//li[@class='cart-modal__item']");
 
     public Cart(WebElement root) {
         super(root);
         WaitHelpers.waitDefaultTimeToWait();
+    }
+
+    public boolean isOpened(){
+        return root.isEnabled() && root.isDisplayed() && root.getSize().height > 0;
     }
 
     public List<CartProduct> getProducts(){

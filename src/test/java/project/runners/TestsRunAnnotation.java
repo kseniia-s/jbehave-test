@@ -11,20 +11,21 @@ import org.jbehave.core.io.StoryFinder;
 import org.jbehave.core.junit.AnnotatedEmbedderRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import project.stepDefs.GoogleHomePageStepDef;
+import project.settings.BrowserType;
 
 import java.util.List;
 
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 
 @RunWith(AnnotatedEmbedderRunner.class)
-@Configure(storyControls = TestsRun.MyStoryControls.class, storyLoader = TestsRun.MyStoryLoader.class)
-@UsingEmbedder(embedder = Embedder.class, generateViewAfterStories = true, ignoreFailureInStories = true, ignoreFailureInView = true, verboseFailures = true, /*threads = 2, */metaFilters = "-skip")
-@UsingSteps(instances = { GoogleHomePageStepDef.class })
-public class TestsRun extends InjectableEmbedder {
+@Configure(storyControls = TestsRunAnnotation.MyStoryControls.class, storyLoader = TestsRunAnnotation.MyStoryLoader.class)
+@UsingEmbedder(threads = 4, embedder = Embedder.class, generateViewAfterStories = true, ignoreFailureInStories = false, ignoreFailureInView = true, verboseFailures = true, metaFilters = "-skip")
+@UsingSteps(packages = "project.stepDefs")
+public class TestsRunAnnotation extends InjectableEmbedder {
 
     @Test
     public void run() {
+        System.setProperty("browser", String.valueOf(BrowserType.CHROME));
         List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/*.story", "");
         injectedEmbedder().runStoriesAsPaths(storyPaths);
     }
@@ -38,7 +39,7 @@ public class TestsRun extends InjectableEmbedder {
 
     public static class MyStoryLoader extends LoadFromClasspath {
         public MyStoryLoader() {
-            super(TestsRun.class.getClassLoader());
+            super(TestsRunAnnotation.class.getClassLoader());
         }
     }
 
@@ -59,5 +60,4 @@ public class TestsRun extends InjectableEmbedder {
 //            super(new SimpleDateFormat("yyyy-MM-dd"));
 //        }
 //    }
-
 }

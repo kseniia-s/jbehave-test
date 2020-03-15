@@ -5,9 +5,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import project.settings.Browser;
-
-import java.util.List;
+import project.settings.ScenarioContext;
 
 public class WaitHelpers {
 
@@ -22,16 +20,16 @@ public class WaitHelpers {
     }
 
     public static void waitForPageSourcesToBeCompletelyLoaded() {
-        JavascriptExecutor js = (JavascriptExecutor) Browser.getDriver();
+        JavascriptExecutor js = (JavascriptExecutor) ScenarioContext.context().getBrowser();
         js.executeScript("return window.jQuery != undefined && jQuery.active == 0;");
     }
 
     public static WebElement waitUntilElementIsVisible(By element) {
-        return new WebDriverWait(Browser.getDriver(), 5).until(ExpectedConditions.visibilityOfElementLocated(element));
+        return new WebDriverWait(ScenarioContext.context().getBrowser(), 5).until(ExpectedConditions.visibilityOfElementLocated(element));
     }
 
     public static void waitPageToBeCompletelyLoaded() {
-        new WebDriverWait(Browser.getDriver(), pageLoadTimeout)
-                .until(wait -> ((JavascriptExecutor) Browser.getDriver()).executeScript("return document.readyState").equals("complete"));
+        new WebDriverWait(ScenarioContext.context().getBrowser(), pageLoadTimeout)
+                .until(wait -> ((JavascriptExecutor) ScenarioContext.context().getBrowser()).executeScript("return document.readyState").equals("complete"));
     }
 }
