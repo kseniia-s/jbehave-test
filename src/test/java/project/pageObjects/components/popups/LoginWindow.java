@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import project.helpers.WaitHelpers;
 import project.pageObjects.BaseItem;
-import project.settings.Browser;
+import project.settings.ScenarioContext;
 
 public class LoginWindow extends BaseItem {
 
@@ -17,17 +17,17 @@ public class LoginWindow extends BaseItem {
     }
 
     public void fillLoginForm(String email, String password) {
-        WebElement emailField = Browser.getDriver().findElement(emailInputField);
+        WebElement emailField = ScenarioContext.context().getBrowser().findElement(emailInputField);
         emailField.clear();
         emailField.sendKeys(email);
 
-        WebElement passwordField = Browser.getDriver().findElement(passwordInputField);
+        WebElement passwordField = ScenarioContext.context().getBrowser().findElement(passwordInputField);
         passwordField.clear();
         passwordField.sendKeys(password);
     }
 
     public void clickOnLogInButton() {
-        Browser.getDriver().findElement(By.xpath("//button[contains(text(),'Войти')]")).click();
+        ScenarioContext.context().getBrowser().findElement(By.xpath("//button[contains(text(),'Войти')]")).click();
         WaitHelpers.waitDefaultTimeToWait();
     }
 }

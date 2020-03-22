@@ -5,16 +5,15 @@ import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebElement;
 import project.pageObjects.BaseItem;
 import project.pageObjects.components.popups.Cart;
-import project.settings.Browser;
+import project.settings.ScenarioContext;
 
-import static project.helpers.WaitHelpers.waitForPageSourcesToBeCompletelyLoaded;
-import static project.helpers.WaitHelpers.waitPageToBeCompletelyLoaded;
+import static project.helpers.WaitHelpers.*;
 
 public class Header extends BaseItem {
 
     private By loginLink = By.xpath("//a[contains(@class,'header-topline__user-link')]");
     private By cartIcon = By.xpath("//li[contains(@class,'type_cart')]");
-    private By cart = By.xpath("//div[@modaloverlay and contains(@class,'cart-modal')]");
+    private By cartPopup = By.xpath("//div[@modaloverlay and contains(@class,'cart-modal')]");
     private By productsCatalogButton = By.xpath("//button[@class='menu-toggler']");
     private By searchField = By.xpath("//input[@search-input]");
     private By searchButton = By.xpath("//button[contains(@class,'search-form__submit')]");
@@ -53,6 +52,7 @@ public class Header extends BaseItem {
 
     public Cart openCart(){
         root.findElement(cartIcon).click();
-        return new Cart(Browser.getDriver().findElement(cart));
+        waitForPageSourcesToBeCompletelyLoaded();
+        return new Cart(waitUntilElementIsVisible(cartPopup));
     }
 }

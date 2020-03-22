@@ -5,10 +5,14 @@ As a user
 I want to perform an action
 So that I can achieve a business goal
 
-Scenario: Filtering is working as expected
+Lifecycle:
+Before:
+Scope: SCENARIO
 Given an opened browser with an https://rozetka.com.ua/
 When page home page is fully loaded
-And user hover on the Ноутбуки и компьютеры category
+
+Scenario: Filtering is working as expected
+When user hover on the Ноутбуки и компьютеры category
 And user clicks on the Ноутбуки category
 And user applies filters:
 |filter|value|

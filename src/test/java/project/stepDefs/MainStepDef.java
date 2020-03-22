@@ -10,7 +10,6 @@ import org.junit.Assert;
 import project.pageObjects.HomePage;
 import project.pageObjects.ProductsPage;
 import project.pageObjects.components.popups.LoginWindow;
-import project.settings.Browser;
 import project.settings.ScenarioContext;
 
 import java.util.Map;
@@ -18,7 +17,11 @@ import java.util.Map;
 public class MainStepDef extends Steps {
     @Given("an opened browser with an $URL")
     public void anOpenedBrowserWithABaseURL(String URL) {
-        Browser.getDriver().navigate().to(URL);
+        ScenarioContext
+                .context()
+                .getBrowser()
+                .navigate()
+                .to(URL);
     }
 
     @When("page $pagename is fully loaded")

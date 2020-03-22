@@ -1,22 +1,19 @@
 package project.settings;
 
+import java.util.function.Supplier;
+
 public class ScenarioContext {
 
-//    static {
-//        new ScenarioContext();
-//    }
-
-    static final class ContextLocal extends ThreadLocal<Context> {
-
-        @Override
-        protected Context initialValue() {
-            return new Context();
-        }
+    public static void initContext(Context context) {
+//        System.out.println(Thread.currentThread().getName()+": initContext");
+        userThreadLocal.set(context);
     }
 
-    private static final ThreadLocal<Context> userThreadLocal = new ContextLocal();
+    private static ThreadLocal<Context> userThreadLocal = new ThreadLocal<>();
 
     public static Context context() {
+//        System.out.println(Thread.currentThread().getName()+": getContext");
         return userThreadLocal.get();
     }
+
 }

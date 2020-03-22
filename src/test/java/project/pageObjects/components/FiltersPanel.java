@@ -5,7 +5,8 @@ import org.openqa.selenium.WebElement;
 import project.helpers.WaitHelpers;
 import project.pageObjects.BaseItem;
 import project.pageObjects.components.enums.FilterTypeEnum;
-import project.settings.Browser;
+import project.settings.ScenarioContext;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class FiltersPanel extends BaseItem {
 
     private List<WebElement> getRamTypesList()
     {
-        Browser.getDriver().findElement(ramTypeButton).click();
+        ScenarioContext.context().getBrowser().findElement(ramTypeButton).click();
         WaitHelpers.waitDefaultTimeToWait();
 
         return root.findElements(ramType);
@@ -57,19 +58,19 @@ public class FiltersPanel extends BaseItem {
 
 
     private void clearMinPriceField(){
-        Browser.getDriver().findElement(minPrice).clear();
+        ScenarioContext.context().getBrowser().findElement(minPrice).clear();
     }
 
     private void clearMaxPriceField(){
-        Browser.getDriver().findElement(maxPrice).clear();
+        ScenarioContext.context().getBrowser().findElement(maxPrice).clear();
     }
 
     private void setMinPrice(String price){
-        Browser.getDriver().findElement(minPrice).sendKeys(price);
+        ScenarioContext.context().getBrowser().findElement(minPrice).sendKeys(price);
     }
 
     private void setMaxPrice(String price){
-        Browser.getDriver().findElement(maxPrice).sendKeys(price);
+        ScenarioContext.context().getBrowser().findElement(maxPrice).sendKeys(price);
     }
 
     private void applyPriceFilter()

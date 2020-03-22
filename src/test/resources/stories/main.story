@@ -7,12 +7,13 @@ As a user
 I want to login to the site
 So that I can order products online
 
-!-- Background:
-!-- Given an opened browser with an https://rozetka.com.ua/
-
-Scenario: User can successfully log in to the cabinet
+Lifecycle:
+Before:
+Scope: SCENARIO
 Given an opened browser with an https://rozetka.com.ua/
 When page home page is fully loaded
+
+Scenario: User can successfully log in to the cabinet
 When user clicks on the log in to your account button
 Then popup with login form is shown
 When user fills required fields in login form:
@@ -22,8 +23,8 @@ And user clicks on the 'Log in' button on the login popup
 Then user Kseniia is logged in
 
 Scenario: Search is working. Appropriate products are shown after search
-Given an opened browser with an https://rozetka.com.ua/
 When user types Asus in the search field
 And user clicks on the Search button
+When page products is fully loaded
 Then the products are shown
 
