@@ -63,23 +63,23 @@ public class BrowserRunner extends ConfigurableEmbedder {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-//        ArrayList<Steps> stepFileList = new ArrayList<Steps>();
-        ArrayList<Steps> stepFileList = new ArrayList<>();
-        stepFileList.add(new CommonStepDef());
-        stepFileList.add(new GoogleHomePageStepDef());
-        stepFileList.add(new FiltersStepDef());
-        stepFileList.add(new MainStepDef());
-        stepFileList.add(new SearchStepDef());
-        stepFileList.add(new CartStepDef());
+        return new InstanceStepsFactory(configuration(), new CommonStepDef(), new FiltersStepDef(), new MainStepDef(), new SearchStepDef(), new CartStepDef());
 
-        return new InstanceStepsFactory(configuration(), stepFileList);
+//        ArrayList<Steps> stepFileList = new ArrayList<>();
+//        stepFileList.add(new CommonStepDef());
+//        stepFileList.add(new FiltersStepDef());
+//        stepFileList.add(new MainStepDef());
+//        stepFileList.add(new SearchStepDef());
+//        stepFileList.add(new CartStepDef());
+
+//        return new InstanceStepsFactory(configuration(), factory);
     }
 
     private List<String> storyPaths() {
         return new StoryFinder().
                 findPaths(CodeLocations.codeLocationFromClass(
                         this.getClass()),
-                        Collections.singletonList("**/a*.story"),
+                        Collections.singletonList("**/*.story"),
                         Collections.singletonList(""));
 
     }

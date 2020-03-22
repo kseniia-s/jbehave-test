@@ -62,7 +62,6 @@ public class Context {
             case CHROME:
                 WebDriverManager.chromedriver().version("79.0.3945.36").setup();
                 ChromeOptions options = new ChromeOptions();
-
                 options.addArguments("start-maximized");
                 options.addArguments("enable-automation");
                 options.addArguments("--no-sandbox");
@@ -70,7 +69,10 @@ public class Context {
                 return new ChromeDriver(options);
             case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
-                return new FirefoxDriver();
+                FirefoxDriver firefoxDriver = new FirefoxDriver();
+                firefoxDriver.manage().window().maximize();
+                firefoxDriver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
+                return firefoxDriver;
             case IE:
                 WebDriverManager.iedriver().setup();
                 InternetExplorerOptions ieOptions = new InternetExplorerOptions();
