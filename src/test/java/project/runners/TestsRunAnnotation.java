@@ -1,5 +1,6 @@
 package project.runners;
 
+import org.assertj.core.util.Lists;
 import org.jbehave.core.InjectableEmbedder;
 import org.jbehave.core.annotations.Configure;
 import org.jbehave.core.annotations.UsingEmbedder;
@@ -9,11 +10,14 @@ import org.jbehave.core.embedder.StoryControls;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryFinder;
 import org.jbehave.core.junit.AnnotatedEmbedderRunner;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import project.settings.BrowserType;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 
@@ -23,11 +27,19 @@ import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 @UsingSteps(packages = "project.stepDefs")
 public class TestsRunAnnotation extends InjectableEmbedder {
 
+    private List<BrowserType> browserList = Lists.list(BrowserType.CHROME, BrowserType.FIREFOX);
+
     @Test
     public void run() {
-        System.setProperty("browser", String.valueOf(BrowserType.CHROME));
-        List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/*.story", "");
-        injectedEmbedder().runStoriesAsPaths(storyPaths);
+        String browsers = System.getProperty("browser", "");
+        if (!browsers.isEmpty()) {
+            browserList = parse(browsers);
+        }
+        for (BrowserType browserType : browserList) {
+            System.setProperty("browser", browserType.name());
+            List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/*.story", "");
+            injectedEmbedder().runStoriesAsPaths(storyPaths);
+        }
     }
 
     public static class MyStoryControls extends StoryControls {
@@ -60,4 +72,11 @@ public class TestsRunAnnotation extends InjectableEmbedder {
 //            super(new SimpleDateFormat("yyyy-MM-dd"));
 //        }
 //    }
+
+    private List<BrowserType> parse(String browsers) {
+        return Arrays.stream(browsers.split(","))
+                .map(s->s.trim().toUpperCase())
+                .map(BrowserType::valueOf)
+                .collect(Collectors.toList());
+    }
 }
