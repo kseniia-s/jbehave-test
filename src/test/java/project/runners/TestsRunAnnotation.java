@@ -7,9 +7,13 @@ import org.jbehave.core.annotations.UsingEmbedder;
 import org.jbehave.core.annotations.UsingSteps;
 import org.jbehave.core.embedder.Embedder;
 import org.jbehave.core.embedder.StoryControls;
+import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryFinder;
 import org.jbehave.core.junit.AnnotatedEmbedderRunner;
+import org.jbehave.core.reporters.CrossReference;
+import org.jbehave.core.reporters.FilePrintStreamFactory;
+import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,13 +21,16 @@ import project.settings.BrowserType;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
+import static org.jbehave.core.reporters.Format.CONSOLE;
+import static org.jbehave.core.reporters.Format.HTML;
 
 @RunWith(AnnotatedEmbedderRunner.class)
-@Configure(storyControls = TestsRunAnnotation.MyStoryControls.class, storyLoader = TestsRunAnnotation.MyStoryLoader.class)
-@UsingEmbedder(threads = 4, embedder = Embedder.class, generateViewAfterStories = true, ignoreFailureInStories = false, ignoreFailureInView = true, verboseFailures = true, metaFilters = "-skip")
+@Configure(storyReporterBuilder = TestsRunAnnotation.MyReportBuilder.class, storyControls = TestsRunAnnotation.MyStoryControls.class, storyLoader = TestsRunAnnotation.MyStoryLoader.class)
+@UsingEmbedder(threads = 3, ignoreFailureInView = true, verboseFailures = true, metaFilters = "-skip")
 @UsingSteps(packages = "project.stepDefs")
 public class TestsRunAnnotation extends InjectableEmbedder {
 
@@ -38,7 +45,9 @@ public class TestsRunAnnotation extends InjectableEmbedder {
         for (BrowserType browserType : browserList) {
             System.setProperty("browser", browserType.name());
             List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/*.story", "");
-            injectedEmbedder().runStoriesAsPaths(storyPaths);
+            Embedder embedder = injectedEmbedder();
+            embedder.runStoriesAsPaths(storyPaths);
+            embedder.generateCrossReference();
         }
     }
 
@@ -55,11 +64,22 @@ public class TestsRunAnnotation extends InjectableEmbedder {
         }
     }
 
-//    public static class MyReportBuilder extends StoryReporterBuilder {
-//        public MyReportBuilder() {
-//            this.withFormats(CONSOLE, TXT, HTML, XML).withDefaultFormats();
-//        }
-//    }
+    public static class MyReportBuilder extends StoryReporterBuilder {
+        private final CrossReference xref = new CrossReference();
+        public MyReportBuilder() {
+            Properties viewResources = new Properties();
+            viewResources.put("decorateNonHtml", "true");
+
+            this.withCodeLocation(CodeLocations.codeLocationFromClass(this.getClass()))
+                    .withDefaultFormats()
+                    .withPathResolver(new FilePrintStreamFactory.ResolveToPackagedName())
+                    .withViewResources(viewResources)
+                    .withFormats(CONSOLE, HTML)
+                    .withFailureTrace(true)
+                    .withFailureTraceCompression(true)
+                    .withCrossReference(xref);
+        }
+    }
 
 //    public static class MyRegexPrefixCapturingPatternParser extends RegexPrefixCapturingPatternParser {
 //        public MyRegexPrefixCapturingPatternParser() {

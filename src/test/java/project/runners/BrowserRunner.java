@@ -8,18 +8,22 @@ import org.jbehave.core.failures.BatchFailures;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryFinder;
+import org.jbehave.core.reporters.*;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
-import org.jbehave.core.steps.Steps;
+import org.jbehave.core.steps.ScanningStepsFactory;
 import project.settings.BrowserType;
 import project.stepDefs.*;
 
 import java.util.*;
 
+import static org.jbehave.core.reporters.Format.*;
+
 public class BrowserRunner extends ConfigurableEmbedder {
 
     private BrowserType browserType;
     private BatchFailures failuresList = new BatchFailures();
+    private final CrossReference xref = new CrossReference();
 
     BrowserRunner(BrowserType type) {
         System.out.println(Thread.currentThread().getName() + " TestExecution constructor: " + type);
@@ -49,30 +53,35 @@ public class BrowserRunner extends ConfigurableEmbedder {
 
     @Override
     public Configuration configuration() {
+        Properties viewResources = new Properties();
+        viewResources.put("decorateNonHtml", "true");
+
         return new MostUsefulConfiguration()
 //                .useCompositePaths(Sets.newHashSet("Composite.steps"))
                 .useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()))
+                .useStoryReporterBuilder(new TestsRunAnnotation.MyReportBuilder())
+//                        new StoryReporterBuilder()
+//                                .withCodeLocation(CodeLocations.codeLocationFromClass(this.getClass()))
+//                                .withDefaultFormats()
+//                                .withPathResolver(new FilePrintStreamFactory.ResolveToPackagedName())
+//                                .withViewResources(viewResources)
+//                                .withFormats(CONSOLE, HTML)
+//                                .withFailureTrace(true)
+//                                .withFailureTraceCompression(true)
+//                                .withCrossReference(xref))
+                .useViewGenerator(new FreemarkerViewGenerator())
 //                .useStoryReporterBuilder(new StoryReporterBuilder()
 //                        .withDefaultFormats()
 //                        .withFormats(Format.HTML, Format.CONSOLE)
 //                        .withRelativeDirectory("jbehave-report")
 //                        .withFailureTrace(true)
 //                );
-                ;
+        ;
     }
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new CommonStepDef(), new FiltersStepDef(), new MainStepDef(), new SearchStepDef(), new CartStepDef());
-
-//        ArrayList<Steps> stepFileList = new ArrayList<>();
-//        stepFileList.add(new CommonStepDef());
-//        stepFileList.add(new FiltersStepDef());
-//        stepFileList.add(new MainStepDef());
-//        stepFileList.add(new SearchStepDef());
-//        stepFileList.add(new CartStepDef());
-
-//        return new InstanceStepsFactory(configuration(), factory);
+        return new ScanningStepsFactory(configuration(), "project.stepDefs");
     }
 
     private List<String> storyPaths() {
@@ -81,7 +90,6 @@ public class BrowserRunner extends ConfigurableEmbedder {
                         this.getClass()),
                         Collections.singletonList("**/*.story"),
                         Collections.singletonList(""));
-
     }
 
     private class MyFailureStrategy extends Embedder.ThrowingRunningStoriesFailed {

@@ -28,28 +28,23 @@ public class FiltersPanel extends BaseItem {
         super(root);
     }
 
-    private List<WebElement> getManufacturersList()
-    {
+    private List<WebElement> getManufacturersList() {
         return root.findElements(manufacturers);
     }
 
-    private List<WebElement> getCpuDataList()
-    {
+    private List<WebElement> getCpuDataList() {
         return root.findElements(cpuData);
     }
 
-    private List<WebElement> getRamDataList()
-    {
+    private List<WebElement> getRamDataList() {
         return root.findElements(ram);
     }
 
-    private List<WebElement> getOsDataList()
-    {
+    private List<WebElement> getOsDataList() {
         return root.findElements(os);
     }
 
-    private List<WebElement> getRamTypesList()
-    {
+    private List<WebElement> getRamTypesList() {
         ScenarioContext.context().getBrowser().findElement(ramTypeButton).click();
         WaitHelpers.waitDefaultTimeToWait();
 
@@ -57,40 +52,39 @@ public class FiltersPanel extends BaseItem {
     }
 
 
-    private void clearMinPriceField(){
+    private void clearMinPriceField() {
         ScenarioContext.context().getBrowser().findElement(minPrice).clear();
     }
 
-    private void clearMaxPriceField(){
+    private void clearMaxPriceField() {
         ScenarioContext.context().getBrowser().findElement(maxPrice).clear();
     }
 
-    private void setMinPrice(String price){
+    private void setMinPrice(String price) {
         ScenarioContext.context().getBrowser().findElement(minPrice).sendKeys(price);
     }
 
-    private void setMaxPrice(String price){
+    private void setMaxPrice(String price) {
         ScenarioContext.context().getBrowser().findElement(maxPrice).sendKeys(price);
     }
 
-    private void applyPriceFilter()
-    {
+    private void applyPriceFilter() {
         root.findElement(applyPriceButton).click();
     }
 
     public void fillFilters(Map<FilterTypeEnum, Object> filterValues) {
-        filterValues.forEach((k,v) -> {
+        filterValues.forEach((k, v) -> {
             switch (k) {
                 case MANUFACTURER:
                     Optional<WebElement> found = Optional.empty();
-                    for (WebElement webElement : getManufacturersList()) {
-                        if (webElement.getText().contains(v.toString())) {
-                            found = Optional.of(webElement);
+                    for (WebElement manufacturer : getManufacturersList()) {
+                        if (manufacturer.getText().contains(v.toString())) {
+                            found = Optional.of(manufacturer);
                             break;
                         }
                     }
                     found
-                            .orElseThrow(() -> new RuntimeException("No value found "+ v))
+                            .orElseThrow(() -> new RuntimeException("No value found. Value: " + v))
                             .click();
 //                    getManufacturersList()
 //                            .stream()
@@ -99,9 +93,6 @@ public class FiltersPanel extends BaseItem {
 //                            .orElseThrow(() -> new RuntimeException("No value found "+ v))
 //                            .click();
 //                    WaitHelpers.waitDefaultTimeToWait();
-                    break;
-                case MANUFACTURER_SEARCH:
-                    // find search and type
                     break;
                 case PRICE_MIN:
                     clearMinPriceField();
@@ -116,36 +107,36 @@ public class FiltersPanel extends BaseItem {
                 case CPU:
                     getCpuDataList()
                             .stream()
-                            .filter(i->i.getText().contains(v.toString()))
+                            .filter(i -> i.getText().contains(v.toString()))
                             .findFirst()
-                            .orElseThrow(()->new RuntimeException("No value found "+ v))
+                            .orElseThrow(() -> new RuntimeException("No value found " + v))
                             .click();
                     WaitHelpers.waitDefaultTimeToWait();
                     break;
                 case RAM:
                     getRamDataList()
                             .stream()
-                            .filter(i->i.getText().contains(v.toString()))
+                            .filter(i -> i.getText().contains(v.toString()))
                             .findFirst()
-                            .orElseThrow(() -> new RuntimeException("No value found "+ v))
+                            .orElseThrow(() -> new RuntimeException("No value found " + v))
                             .click();
                     WaitHelpers.waitDefaultTimeToWait();
                     break;
                 case OS:
                     getOsDataList()
                             .stream()
-                            .filter(i->i.getText().contains(v.toString()))
+                            .filter(i -> i.getText().contains(v.toString()))
                             .findFirst()
-                            .orElseThrow(() -> new RuntimeException("No value found "+ v))
+                            .orElseThrow(() -> new RuntimeException("No value found " + v))
                             .click();
                     WaitHelpers.waitDefaultTimeToWait();
                     break;
                 case RAM_TYPE:
                     getRamTypesList()
                             .stream()
-                            .filter(i->i.getText().contains(v.toString()))
+                            .filter(i -> i.getText().contains(v.toString()))
                             .findFirst()
-                            .orElseThrow(() -> new RuntimeException("No value found "+ v))
+                            .orElseThrow(() -> new RuntimeException("No value found " + v))
                             .click();
                     break;
                 default:

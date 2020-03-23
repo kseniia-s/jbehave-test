@@ -16,19 +16,19 @@ public class FiltersStepDef extends Steps {
 
     @When("user hover on the $category category")
     public void userHoverOnTheCategory(String category) {
-        ((HomePage)ScenarioContext.context().getCurrentPage()).hoverOnMainCategory(category);
+        ((HomePage) ScenarioContext.context().getCurrentPage()).hoverOnMainCategory(category);
     }
 
     @When("user clicks on the $category category")
     public void userClicksOnTheCategory(String category) {
-        ((HomePage)ScenarioContext.context().getCurrentPage()).clickOnProductsCategory(category);
+        ((HomePage) ScenarioContext.context().getCurrentPage()).clickOnProductsCategory(category);
     }
 
     @SuppressWarnings("unchecked")
     @When("user applies filters: $filters")
     public void userAppliesFilters(ExamplesTable filters) {
         SortedMap<FilterTypeEnum, Object> filterMap = new PresortedMap();
-        for (Map<String, String> row:filters.getRows()) {
+        for (Map<String, String> row : filters.getRows()) {
             FilterTypeEnum ft = FilterTypeEnum.getByName(row.get("filter"));
             filterMap.put(ft, row.get("value"));
         }

@@ -34,7 +34,7 @@ public class Header extends BaseItem {
             case "log in to your account":
                 root.findElement(loginLink).click();
                 break;
-            case "каталог товаров":
+            case "products catalog":
                 root.findElement(productsCatalogButton).click();
                 break;
             case "search":

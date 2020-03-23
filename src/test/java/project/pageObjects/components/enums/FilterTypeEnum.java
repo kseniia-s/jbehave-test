@@ -1,14 +1,13 @@
 package project.pageObjects.components.enums;
 
 public enum FilterTypeEnum {
-    MANUFACTURER("Производитель"),
-    MANUFACTURER_SEARCH("Производитель"),
-    PRICE_MIN("Цена min"),
-    PRICE_MAX("Цена max"),
-    CPU("Процессор"),
-    RAM("Объем оперативной памяти"),
-    OS("Операционная система"),
-    RAM_TYPE("Тип оперативной памяти");
+    MANUFACTURER("Manufacturer"),
+    PRICE_MIN("Price min"),
+    PRICE_MAX("Price max"),
+    CPU("CPU"),
+    RAM("RAM size"),
+    OS("OS"),
+    RAM_TYPE("RAM type");
 
     FilterTypeEnum(String filterName) {
         this.filterName = filterName;
