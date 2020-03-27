@@ -29,17 +29,17 @@ import static org.jbehave.core.reporters.Format.HTML;
 
 @RunWith(AnnotatedEmbedderRunner.class)
 @Configure(storyControls = TestsRunAnnotation.MyStoryControls.class, storyLoader = TestsRunAnnotation.MyStoryLoader.class)
-@UsingEmbedder(threads = 3, ignoreFailureInView = false, verboseFailures = true, metaFilters = "-skip")
+@UsingEmbedder(threads = 3, ignoreFailureInStories = true, ignoreFailureInView = false, verboseFailures = true, metaFilters = "-skip")
 @UsingSteps(packages = "project.stepDefs")
 //@UsingSteps(packages = "project.stepDefs", matchingNames = ".*steps", notMatchingNames = "")
 public class TestsRunAnnotation extends InjectableEmbedder {
 //public class TestsRunAnnotation extends InjectableEmbedder, implements Embeddable{
 
-    private List<BrowserType> browserList = Lists.list(BrowserType.CHROME, BrowserType.FIREFOX);
+    private List<BrowserType> browserList;
 
     @Test
     public void run() {
-        String browsers = System.getProperty("browser", "");
+        String browsers = System.getProperty("browser", "chrome");
         if (!browsers.isEmpty()) {
             browserList = parse(browsers);
         }
@@ -48,8 +48,11 @@ public class TestsRunAnnotation extends InjectableEmbedder {
             List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/m*.story", "");
             Embedder embedder = injectedEmbedder();
             embedder.configuration().useStoryReporterBuilder(new MyReportBuilder());
-            embedder.runStoriesAsPaths(storyPaths);
-            embedder.generateCrossReference();
+            try {
+                embedder.runStoriesAsPaths(storyPaths);
+            } finally {
+                embedder.generateCrossReference();
+            }
         }
     }
 
