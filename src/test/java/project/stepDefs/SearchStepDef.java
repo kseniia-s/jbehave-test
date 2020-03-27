@@ -1,6 +1,8 @@
 package project.stepDefs;
 
 import org.assertj.core.api.Assertions;
+import org.jbehave.core.annotations.Alias;
+import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
@@ -14,7 +16,8 @@ import java.util.List;
 
 public class SearchStepDef extends Steps {
     @When("user types $searchingKeyword in the search field")
-    public void userTypesWordInTheSearchField(String searchingKeyword) {
+    @Alias("user types <searchingKeyword> in the search field")
+    public void userTypesWordInTheSearchField(@Named("searchingKeyword") String searchingKeyword) {
         BasePage page = ScenarioContext.context().getCurrentPage();
         page.getHeader().searchByKeyword(searchingKeyword);
     }

@@ -14,7 +14,6 @@ import org.jbehave.core.junit.AnnotatedEmbedderRunner;
 import org.jbehave.core.reporters.CrossReference;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporterBuilder;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import project.settings.BrowserType;
@@ -66,12 +65,14 @@ public class TestsRunAnnotation extends InjectableEmbedder {
 
     public static class MyReportBuilder extends StoryReporterBuilder {
         private final CrossReference xref = new CrossReference();
+
         public MyReportBuilder() {
             Properties viewResources = new Properties();
             viewResources.put("decorateNonHtml", "true");
 
             this.withCodeLocation(CodeLocations.codeLocationFromClass(this.getClass()))
                     .withDefaultFormats()
+                    .withRelativeDirectory("my-output")
                     .withPathResolver(new FilePrintStreamFactory.ResolveToPackagedName())
                     .withViewResources(viewResources)
                     .withFormats(CONSOLE, HTML)
@@ -95,7 +96,7 @@ public class TestsRunAnnotation extends InjectableEmbedder {
 
     private List<BrowserType> parse(String browsers) {
         return Arrays.stream(browsers.split(","))
-                .map(s->s.trim().toUpperCase())
+                .map(s -> s.trim().toUpperCase())
                 .map(BrowserType::valueOf)
                 .collect(Collectors.toList());
     }

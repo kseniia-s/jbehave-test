@@ -1,5 +1,6 @@
 package project.runners;
 
+import org.assertj.core.util.Lists;
 import org.jbehave.core.ConfigurableEmbedder;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
@@ -39,10 +40,11 @@ public class BrowserRunner extends ConfigurableEmbedder {
         System.setProperty("browser", String.valueOf(this.browserType));
         Embedder embedder = configuredEmbedder();
         embedder.useEmbedderFailureStrategy(new MyFailureStrategy());
-        embedder.embedderControls().useThreads(4)
+        embedder.embedderControls()
+                .useThreads(4);
 //                .doIgnoreFailureInStories(true)
-//                .doIgnoreFailureInView(true)
-        ;
+//                .doIgnoreFailureInView(true);
+        embedder.useMetaFilters(Lists.list("+search"));
         try {
             embedder.runStoriesAsPaths(storyPaths());
         } finally {
@@ -69,14 +71,7 @@ public class BrowserRunner extends ConfigurableEmbedder {
 //                                .withFailureTrace(true)
 //                                .withFailureTraceCompression(true)
 //                                .withCrossReference(xref))
-                .useViewGenerator(new FreemarkerViewGenerator())
-//                .useStoryReporterBuilder(new StoryReporterBuilder()
-//                        .withDefaultFormats()
-//                        .withFormats(Format.HTML, Format.CONSOLE)
-//                        .withRelativeDirectory("jbehave-report")
-//                        .withFailureTrace(true)
-//                );
-        ;
+                .useViewGenerator(new FreemarkerViewGenerator());
     }
 
     @Override

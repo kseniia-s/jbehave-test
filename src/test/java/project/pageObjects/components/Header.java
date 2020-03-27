@@ -5,7 +5,6 @@ import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebElement;
 import project.pageObjects.BaseItem;
 import project.pageObjects.components.popups.Cart;
-import project.settings.ScenarioContext;
 
 import static project.helpers.WaitHelpers.*;
 
@@ -25,7 +24,7 @@ public class Header extends BaseItem {
         waitForPageSourcesToBeCompletelyLoaded();
     }
 
-    public void searchByKeyword(String searchingKeyword){
+    public void searchByKeyword(String searchingKeyword) {
         root.findElement(searchField).sendKeys(searchingKeyword);
     }
 
@@ -37,12 +36,13 @@ public class Header extends BaseItem {
             case "products catalog":
                 root.findElement(productsCatalogButton).click();
                 break;
-            case "search":
-                root.findElement(searchButton).click();
-                break;
             default:
                 throw new NotFoundException("The button with name '" + buttonName + "' is not exist.");
         }
+    }
+
+    public void clickSearchButton() {
+        root.findElement(searchButton).click();
     }
 
     public Boolean isUserLoggedIn(String userName) {
@@ -50,7 +50,7 @@ public class Header extends BaseItem {
         return root.findElement(loginLink).getText().trim().equals(userName);
     }
 
-    public Cart openCart(){
+    public Cart openCart() {
         root.findElement(cartIcon).click();
         waitForPageSourcesToBeCompletelyLoaded();
         return new Cart(waitUntilElementIsVisible(cartPopup));
