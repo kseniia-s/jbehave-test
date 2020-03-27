@@ -28,10 +28,12 @@ import static org.jbehave.core.reporters.Format.CONSOLE;
 import static org.jbehave.core.reporters.Format.HTML;
 
 @RunWith(AnnotatedEmbedderRunner.class)
-@Configure(storyReporterBuilder = TestsRunAnnotation.MyReportBuilder.class, storyControls = TestsRunAnnotation.MyStoryControls.class, storyLoader = TestsRunAnnotation.MyStoryLoader.class)
-@UsingEmbedder(threads = 3, ignoreFailureInView = true, verboseFailures = true, metaFilters = "-skip")
+@Configure(storyControls = TestsRunAnnotation.MyStoryControls.class, storyLoader = TestsRunAnnotation.MyStoryLoader.class)
+@UsingEmbedder(threads = 3, ignoreFailureInView = false, verboseFailures = true, metaFilters = "-skip")
 @UsingSteps(packages = "project.stepDefs")
+//@UsingSteps(packages = "project.stepDefs", matchingNames = ".*steps", notMatchingNames = "")
 public class TestsRunAnnotation extends InjectableEmbedder {
+//public class TestsRunAnnotation extends InjectableEmbedder, implements Embeddable{
 
     private List<BrowserType> browserList = Lists.list(BrowserType.CHROME, BrowserType.FIREFOX);
 
@@ -43,8 +45,9 @@ public class TestsRunAnnotation extends InjectableEmbedder {
         }
         for (BrowserType browserType : browserList) {
             System.setProperty("browser", browserType.name());
-            List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/*.story", "");
+            List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/m*.story", "");
             Embedder embedder = injectedEmbedder();
+            embedder.configuration().useStoryReporterBuilder(new MyReportBuilder());
             embedder.runStoriesAsPaths(storyPaths);
             embedder.generateCrossReference();
         }
@@ -63,24 +66,7 @@ public class TestsRunAnnotation extends InjectableEmbedder {
         }
     }
 
-    public static class MyReportBuilder extends StoryReporterBuilder {
-        private final CrossReference xref = new CrossReference();
 
-        public MyReportBuilder() {
-            Properties viewResources = new Properties();
-            viewResources.put("decorateNonHtml", "true");
-
-            this.withCodeLocation(CodeLocations.codeLocationFromClass(this.getClass()))
-                    .withDefaultFormats()
-                    .withRelativeDirectory("my-output")
-                    .withPathResolver(new FilePrintStreamFactory.ResolveToPackagedName())
-                    .withViewResources(viewResources)
-                    .withFormats(CONSOLE, HTML)
-                    .withFailureTrace(true)
-                    .withFailureTraceCompression(true)
-                    .withCrossReference(xref);
-        }
-    }
 
 //    public static class MyRegexPrefixCapturingPatternParser extends RegexPrefixCapturingPatternParser {
 //        public MyRegexPrefixCapturingPatternParser() {

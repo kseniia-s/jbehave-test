@@ -3,6 +3,8 @@ package project.runners;
 import org.assertj.core.util.Lists;
 import org.jbehave.core.embedder.Embedder;
 import org.jbehave.core.failures.BatchFailures;
+import org.jbehave.core.junit.JUnitStories;
+import org.jbehave.core.junit.JUnitStory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RunWith(JUnit4.class)
-public class TestsRunJUnit {
+public class TestsRunJUnit{
+//    public class TestsRunJUnit extends JUnitStory {
+//public class TestsRunJUnit extends JUnitStories {
 
     private List<BrowserType> browserList = Lists.list(BrowserType.CHROME, BrowserType.FIREFOX);
     private BatchFailures failuresList = new BatchFailures();

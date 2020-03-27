@@ -9,16 +9,15 @@ import org.jbehave.core.failures.BatchFailures;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryFinder;
-import org.jbehave.core.reporters.*;
+import org.jbehave.core.reporters.CrossReference;
+import org.jbehave.core.reporters.FreemarkerViewGenerator;
 import org.jbehave.core.steps.InjectableStepsFactory;
-import org.jbehave.core.steps.InstanceStepsFactory;
 import org.jbehave.core.steps.ScanningStepsFactory;
 import project.settings.BrowserType;
-import project.stepDefs.*;
 
-import java.util.*;
-
-import static org.jbehave.core.reporters.Format.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 
 public class BrowserRunner extends ConfigurableEmbedder {
 
@@ -61,7 +60,7 @@ public class BrowserRunner extends ConfigurableEmbedder {
         return new MostUsefulConfiguration()
 //                .useCompositePaths(Sets.newHashSet("Composite.steps"))
                 .useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()))
-                .useStoryReporterBuilder(new TestsRunAnnotation.MyReportBuilder())
+                .useStoryReporterBuilder(new MyReportBuilder())
 //                        new StoryReporterBuilder()
 //                                .withCodeLocation(CodeLocations.codeLocationFromClass(this.getClass()))
 //                                .withDefaultFormats()
@@ -83,7 +82,7 @@ public class BrowserRunner extends ConfigurableEmbedder {
         return new StoryFinder().
                 findPaths(CodeLocations.codeLocationFromClass(
                         this.getClass()),
-                        Collections.singletonList("**/*.story"),
+                        Collections.singletonList("**/m*.story"),
                         Collections.singletonList(""));
     }
 
