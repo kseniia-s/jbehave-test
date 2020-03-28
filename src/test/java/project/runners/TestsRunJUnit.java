@@ -1,10 +1,7 @@
 package project.runners;
 
-import org.assertj.core.util.Lists;
 import org.jbehave.core.embedder.Embedder;
 import org.jbehave.core.failures.BatchFailures;
-import org.jbehave.core.junit.JUnitStories;
-import org.jbehave.core.junit.JUnitStory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,24 +14,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RunWith(JUnit4.class)
-public class TestsRunJUnit{
+public class TestsRunJUnit {
 //    public class TestsRunJUnit extends JUnitStory {
 //public class TestsRunJUnit extends JUnitStories {
 
-    private List<BrowserType> browserList = Lists.list(BrowserType.CHROME, BrowserType.FIREFOX);
+    private List<BrowserType> browserList;
     private BatchFailures failuresList = new BatchFailures();
 
     @Before
     public void init() {
-        String browsers = System.getProperty("browser", "");
+        String browsers = System.getProperty("browser", "chrome");
         if (!browsers.isEmpty()) {
             browserList = parse(browsers);
         }
     }
 
     @Test
-    public void runTests(){
-
+    public void runTests() {
         for (BrowserType browserType : browserList) {
             try {
                 BrowserRunner runner = new BrowserRunner(browserType);
@@ -51,7 +47,7 @@ public class TestsRunJUnit{
 
     private List<BrowserType> parse(String browsers) {
         return Arrays.stream(browsers.split(","))
-                .map(s->s.trim().toUpperCase())
+                .map(s -> s.trim().toUpperCase())
                 .map(BrowserType::valueOf)
                 .collect(Collectors.toList());
     }

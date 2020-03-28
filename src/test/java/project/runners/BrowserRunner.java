@@ -48,7 +48,7 @@ public class BrowserRunner extends ConfigurableEmbedder {
             embedder.runStoriesAsPaths(storyPaths());
         } finally {
             embedder.generateCrossReference();
-            embedder.generateSurefireReport();
+//            embedder.generateSurefireReport();
         }
     }
 
@@ -82,7 +82,7 @@ public class BrowserRunner extends ConfigurableEmbedder {
         return new StoryFinder().
                 findPaths(CodeLocations.codeLocationFromClass(
                         this.getClass()),
-                        Collections.singletonList("**/m*.story"),
+                        Collections.singletonList("**/*.story"),
                         Collections.singletonList(""));
     }
 
