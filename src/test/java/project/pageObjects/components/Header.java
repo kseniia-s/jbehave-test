@@ -6,14 +6,17 @@ import org.openqa.selenium.WebElement;
 import project.pageObjects.BaseItem;
 import project.pageObjects.components.popups.Cart;
 
-import static project.helpers.WaitHelpers.*;
+import static project.helpers.WaitHelpers.waitForPageSourcesToBeCompletelyLoaded;
+import static project.helpers.WaitHelpers.waitPageToBeCompletelyLoaded;
+import static project.helpers.WaitHelpers.waitUntilElementIsVisible;
 
 public class Header extends BaseItem {
 
-    private By loginLink = By.xpath("//a[contains(@class,'header-topline__user-link')]");
-    private By cartIcon = By.xpath("//li[contains(@class,'type_cart')]");
-    private By cartPopup = By.xpath("//div[@modaloverlay and contains(@class,'cart-modal')]");
-    private By productsCatalogButton = By.xpath("//button[@class='menu-toggler']");
+    private By loginLink = By.xpath("(//ul[@class='header-actions']//button[@class='header__button'])[1]");
+    private By cartIcon = By.xpath("(//ul[@class='header-actions']//button[@class='header__button'])[2]");
+    private By cabinetMenuButton = By.xpath("(//a[@class='header__button'])[1]");
+    private By cartPopup = By.xpath("//div[contains(@class,'modal__holder')]");
+    private By productsCatalogButton = By.xpath("//button[@id='fat-menu']");
     private By searchField = By.xpath("//input[@search-input]");
     private By searchButton = By.xpath("//button[contains(@class,'search-form__submit')]");
 
@@ -45,14 +48,13 @@ public class Header extends BaseItem {
         root.findElement(searchButton).click();
     }
 
-    public Boolean isUserLoggedIn(String userName) {
-        waitForPageSourcesToBeCompletelyLoaded();
-        return root.findElement(loginLink).getText().trim().equals(userName);
-    }
-
     public Cart openCart() {
         root.findElement(cartIcon).click();
         waitForPageSourcesToBeCompletelyLoaded();
         return new Cart(waitUntilElementIsVisible(cartPopup));
+    }
+
+    public void clickOnCabinetMenuButton() {
+        root.findElement(cabinetMenuButton).click();
     }
 }

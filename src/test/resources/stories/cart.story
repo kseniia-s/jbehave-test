@@ -17,9 +17,9 @@ And user clicks on the Laptops category
 And page products is fully loaded
 Then the products are shown
 When user clicks on cart icon of 1 products
+And user opens a cart
 Then the cart is opened
 And 1 products are in the cart
-
 
 Scenario: User can change the number of ordered products from the cart
 When user opens a cart

@@ -7,7 +7,10 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-import static project.helpers.WaitHelpers.*;
+import static project.helpers.WaitHelpers.waitDefaultTimeToWait;
+import static project.helpers.WaitHelpers.waitForPageSourcesToBeCompletelyLoaded;
+import static project.helpers.WaitHelpers.waitPageToBeCompletelyLoaded;
+import static project.helpers.WaitHelpers.waitUntilElementIsVisible;
 import static project.helpers.WebElementExtensions.focusOnElement;
 
 public class HomePage extends BasePage {
@@ -36,7 +39,7 @@ public class HomePage extends BasePage {
 
     public void hoverOnMainCategory(String mainCategory) {
         if ("Laptops and computers".equals(mainCategory)) {
-            String mainCategoryName = "Ноутбуки и компьютеры";
+            String mainCategoryName = "Ноутбуки та комп’ютери";
             WebElement element = mainCategoriesList
                     .stream()
                     .filter(i -> i.getText().equals(mainCategoryName))

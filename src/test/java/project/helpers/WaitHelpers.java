@@ -9,7 +9,7 @@ import project.settings.ScenarioContext;
 
 public class WaitHelpers {
 
-    private static int pageLoadTimeout = 5;
+    private static int pageLoadTimeout = 10;
 
     public static void waitDefaultTimeToWait() {
         try {
@@ -31,5 +31,10 @@ public class WaitHelpers {
     public static void waitPageToBeCompletelyLoaded() {
         new WebDriverWait(ScenarioContext.context().getBrowser(), pageLoadTimeout)
                 .until(wait -> ((JavascriptExecutor) ScenarioContext.context().getBrowser()).executeScript("return document.readyState").equals("complete"));
+    }
+
+    public static WebElement waitElementToBeClickable(WebElement element){
+        return new WebDriverWait(ScenarioContext.context().getBrowser(), 10)
+                .until(ExpectedConditions.elementToBeClickable(element));
     }
 }

@@ -10,6 +10,7 @@ public class LoginWindow extends BaseItem {
 
     private By emailInputField = By.xpath("//input[@formcontrolname='login']");
     private By passwordInputField = By.xpath("//input[@formcontrolname='password']");
+    private By logInButton = By.xpath("//button[contains(text(),'Увійти')]");
 
     public LoginWindow(WebElement root) {
         super(root);
@@ -27,7 +28,7 @@ public class LoginWindow extends BaseItem {
     }
 
     public void clickOnLogInButton() {
-        ScenarioContext.context().getBrowser().findElement(By.xpath("//button[contains(text(),'Войти')]")).click();
+        ScenarioContext.context().getBrowser().findElement(logInButton).click();
         WaitHelpers.waitDefaultTimeToWait();
     }
 }

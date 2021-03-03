@@ -38,9 +38,4 @@ public class FiltersStepDef extends Steps {
             e.printStackTrace();
         }
     }
-
-//    @Then("products are shown according to the filters")
-//    public void thenProductsAreShownAccordingToTheFilters(){
-//        List products = new ProductsPage().getProductsResults();
-//    }
 }
