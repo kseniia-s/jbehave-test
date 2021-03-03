@@ -60,7 +60,7 @@ public class Context {
         WebDriverManager.globalConfig().setForceCache(false);
         switch (type) {
             case CHROME:
-                WebDriverManager.chromedriver().version("79.0.3945.36").setup();
+                WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("start-maximized");
                 options.addArguments("enable-automation");
