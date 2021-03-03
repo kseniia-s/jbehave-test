@@ -15,11 +15,9 @@ import org.junit.runner.RunWith;
 import project.settings.BrowserType;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
-
-import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 
 @RunWith(AnnotatedEmbedderRunner.class)
 @Configure(storyControls = TestsRunAnnotation.MyStoryControls.class, storyLoader = TestsRunAnnotation.MyStoryLoader.class)
@@ -34,16 +32,19 @@ public class TestsRunAnnotation extends InjectableEmbedder {
     @Test
     public void run() {
         String browsers = System.getProperty("browser", "chrome");
+        List<String> metaFilters = Lists.newArrayList(System.getProperty("meta", "-skip").split(" "));
+        int threadsCount = Integer.parseInt(System.getProperty("threads", "1"));
         if (!browsers.isEmpty()) {
             browserList = parse(browsers);
         }
         for (BrowserType browserType : browserList) {
             System.setProperty("browser", browserType.name());
-            List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/*.story", "");
             Embedder embedder = injectedEmbedder();
+            embedder.useMetaFilters(metaFilters);
+            embedder.embedderControls().useThreads(threadsCount);
             embedder.configuration().useStoryReporterBuilder(new MyReportBuilder());
             try {
-                embedder.runStoriesAsPaths(storyPaths);
+                embedder.runStoriesAsPaths(storyPaths());
             } finally {
                 embedder.generateCrossReference();
             }
@@ -68,5 +69,13 @@ public class TestsRunAnnotation extends InjectableEmbedder {
                 .map(s -> s.trim().toUpperCase())
                 .map(BrowserType::valueOf)
                 .collect(Collectors.toList());
+    }
+
+    private List<String> storyPaths() {
+//        List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/*.story", "");
+        return new StoryFinder().findPaths(CodeLocations.codeLocationFromClass(
+                        this.getClass()),
+                        Collections.singletonList("**/*.story"),
+                        Collections.singletonList(""));
     }
 }

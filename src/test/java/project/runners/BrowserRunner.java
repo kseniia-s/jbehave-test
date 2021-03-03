@@ -17,7 +17,6 @@ import project.settings.BrowserType;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 
 public class BrowserRunner extends ConfigurableEmbedder {
 
@@ -37,13 +36,16 @@ public class BrowserRunner extends ConfigurableEmbedder {
     @Override
     public void run() {
         System.setProperty("browser", String.valueOf(this.browserType));
+        List<String> metaFilters = Lists.newArrayList(System.getProperty("meta", "-skip").split(" "));
+        int threadsCount = Integer.parseInt(System.getProperty("threads", "3"));
         Embedder embedder = configuredEmbedder();
         embedder.useEmbedderFailureStrategy(new MyFailureStrategy());
+        embedder.useMetaFilters(metaFilters);
         embedder.embedderControls()
-                .useThreads(4);
-//                .doIgnoreFailureInStories(true)
-//                .doIgnoreFailureInView(true);
-        embedder.useMetaFilters(Lists.list("+search"));
+                .useThreads(threadsCount)
+                .doIgnoreFailureInView(true)
+                .doIgnoreFailureInStories(true)
+                .verboseFailures();
         try {
             embedder.runStoriesAsPaths(storyPaths());
         } finally {
