@@ -18,9 +18,10 @@ When user clicks on the log in to your account button
 Then popup with login form is shown
 When user fills required fields in login form:
 |email|password|
-|milawka.ksu@gmail.com|Ksu123|
+|milawka.ksu@gmail.com|Rozetka.com17|
 And user clicks on the 'Log in' button on the login popup
-Then user Kseniia is logged in
+Then user clicks on the menu button in the top right side
+And user Ксения Семёнова is logged in
 
 Scenario: Search is working. Appropriate products are shown after search
 Meta:

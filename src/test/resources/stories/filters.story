@@ -17,10 +17,9 @@ And user clicks on the Laptops category
 And user applies filters:
 |filter|value|
 |Manufacturer|Lenovo|
-|Price min|2000|
+|Price min|5000|
 |Price max|25000|
 |CPU|Intel Core i7|
 |RAM size|16 - 24|
 |OS|Windows 10 Home|
-|RAM type|DDR4|
 Then the products are shown

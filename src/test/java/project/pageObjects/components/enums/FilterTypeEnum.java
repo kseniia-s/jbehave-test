@@ -6,8 +6,7 @@ public enum FilterTypeEnum {
     PRICE_MAX("Price max"),
     CPU("CPU"),
     RAM("RAM size"),
-    OS("OS"),
-    RAM_TYPE("RAM type");
+    OS("OS");
 
     FilterTypeEnum(String filterName) {
         this.filterName = filterName;

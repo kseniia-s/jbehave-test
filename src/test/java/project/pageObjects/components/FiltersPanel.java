@@ -13,16 +13,13 @@ import java.util.Optional;
 
 public class FiltersPanel extends BaseItem {
 
-    private By manufacturers = By.xpath("//ctg-filter-section-checkbox//li[@class='checkbox-filter__item']//a/ancestor::li[1]");
+    private By manufacturers = By.xpath("//div[@data-filter-name=\"producer\"]//li[@class='checkbox-filter__item']//a/ancestor::li[1]");
     private By minPrice = By.xpath("//input[@formcontrolname='min']");
     private By maxPrice = By.xpath("//input[@formcontrolname='max']");
-    private By cpuData = By.xpath("//div[@appfilterroot]//button[contains(text(),'Процессор')]//following-sibling::div//li");
-    private By ram = By.xpath("//div[@appfilterroot]//button[contains(text(),'Объем оперативной памяти')]//following-sibling::div//li");
-    private By os = By.xpath("//div[@appfilterroot]//button[contains(text(),'Операционная система')]//following-sibling::div//li");
-    private By ramType = By.xpath("//div[@appfilterroot]//button[contains(text(),'Тип оперативной памяти')]//following-sibling::div//li");
-
-    private By ramTypeButton = By.xpath("//div[@appfilterroot]//button[contains(text(),'Тип оперативной памяти')]");
     private By applyPriceButton = By.xpath("//div[contains(@class,'scrollbar')]//form//button[@type='submit']");
+    private By cpuData = By.xpath("//div[@data-filter-name=\"processor\"]//following-sibling::div//li");
+    private By ram = By.xpath("//span[contains(text(),\"Обсяг оперативної пам'яті\")]//parent::button//following-sibling::div//li");
+    private By os = By.xpath("//span[contains(text(),'Операційна система')]//parent::button//following-sibling::div//li");
 
     public FiltersPanel(WebElement root) {
         super(root);
@@ -43,14 +40,6 @@ public class FiltersPanel extends BaseItem {
     private List<WebElement> getOsDataList() {
         return root.findElements(os);
     }
-
-    private List<WebElement> getRamTypesList() {
-        ScenarioContext.context().getBrowser().findElement(ramTypeButton).click();
-        WaitHelpers.waitDefaultTimeToWait();
-
-        return root.findElements(ramType);
-    }
-
 
     private void clearMinPriceField() {
         ScenarioContext.context().getBrowser().findElement(minPrice).clear();
@@ -130,14 +119,6 @@ public class FiltersPanel extends BaseItem {
                             .orElseThrow(() -> new RuntimeException("No value found " + v))
                             .click();
                     WaitHelpers.waitDefaultTimeToWait();
-                    break;
-                case RAM_TYPE:
-                    getRamTypesList()
-                            .stream()
-                            .filter(i -> i.getText().contains(v.toString()))
-                            .findFirst()
-                            .orElseThrow(() -> new RuntimeException("No value found " + v))
-                            .click();
                     break;
                 default:
                     throw new RuntimeException("Unknown filter name");

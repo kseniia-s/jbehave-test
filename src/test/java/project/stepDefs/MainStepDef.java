@@ -1,9 +1,15 @@
 package project.stepDefs;
 
-import org.jbehave.core.annotations.*;
+import org.jbehave.core.annotations.Alias;
+import org.jbehave.core.annotations.Composite;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Named;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
+import project.pageObjects.CabinetPage;
 import project.pageObjects.HomePage;
 import project.pageObjects.ProductsPage;
 import project.pageObjects.components.popups.LoginWindow;
@@ -72,9 +78,14 @@ public class MainStepDef extends Steps {
     public void whenUserSearchesForProductName(@Named("productName") String productName) {
     }
 
-    @Then("user $user is logged in")
-    public void userIsLoggedIn(String user) {
-        Boolean userIsLoggedIn = ScenarioContext.context().getCurrentPage().getHeader().isUserLoggedIn(user);
-        Assert.assertTrue("The user is not logged in.", userIsLoggedIn);
+    @Then("user $text is logged in")
+    public void userSeesTextOnTheCabinetPage(String userName) {
+        Boolean textIsShown = new CabinetPage().isTextShown(userName);
+        Assert.assertTrue("The user is not logged in", textIsShown);
+    }
+
+    @Then("user clicks on the menu button in the top right side")
+    public void userClicksOnTheMenuButtonInTheTopRightSide() {
+        ScenarioContext.context().getCurrentPage().getHeader().clickOnCabinetMenuButton();
     }
 }

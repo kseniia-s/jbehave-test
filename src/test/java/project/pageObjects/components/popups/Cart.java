@@ -2,8 +2,8 @@ package project.pageObjects.components.popups;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import project.helpers.WaitHelpers;
 import project.helpers.CollectionUtils;
+import project.helpers.WaitHelpers;
 import project.pageObjects.BaseItem;
 import project.pageObjects.components.CartProduct;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Cart extends BaseItem {
 
-    private By cartProducts = By.xpath("//li[@class='cart-modal__item']");
+    private By cartProducts = By.xpath("//div[@class='cart-product']");
 
     public Cart(WebElement root) {
         super(root);

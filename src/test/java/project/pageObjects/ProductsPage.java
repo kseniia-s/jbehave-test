@@ -20,12 +20,12 @@ public class ProductsPage extends BasePage {
 
     public FiltersPanel getFiltersPanel() {
         WaitHelpers.waitDefaultTimeToWait();
-
         return new FiltersPanel(filtersPanel);
     }
 
     public List<WebElement> getProductsList() {
         WaitHelpers.waitDefaultTimeToWait();
+        WaitHelpers.waitElementToBeClickable(productsResultsList.get(0));
         return productsResultsList;
     }
 
