@@ -27,29 +27,35 @@ public class HomePage extends BasePage {
     }
 
     private void closeAddsIfShown() {
-        try{
+        try {
             waitUntilElementIsVisible(closeAddButton).click();
-        } catch (TimeoutException e){
+        } catch (TimeoutException e) {
             //suppress
         }
     }
 
     public void hoverOnMainCategory(String mainCategory) {
-        WebElement element = mainCategoriesList
-                .stream()
-                .filter(i -> i.getText().equals(mainCategory))
-                .findFirst()
-                .get();
-        focusOnElement(element);
+        if ("Laptops and computers".equals(mainCategory)) {
+            String mainCategoryName = "Ноутбуки и компьютеры";
+            WebElement element = mainCategoriesList
+                    .stream()
+                    .filter(i -> i.getText().equals(mainCategoryName))
+                    .findFirst()
+                    .get();
+            focusOnElement(element);
+        }
         waitDefaultTimeToWait();
     }
 
     public void clickOnProductsCategory(String category) {
-        categoriesList
-                .stream()
-                .filter(i -> i.getText().equals(category))
-                .findFirst()
-                .get()
-                .click();
+        if ("Laptops".equals(category)) {
+            String categoryName = "Ноутбуки";
+            categoriesList
+                    .stream()
+                    .filter(i -> i.getText().equals(categoryName))
+                    .findFirst()
+                    .get()
+                    .click();
+        }
     }
 }

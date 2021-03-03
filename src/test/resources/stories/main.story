@@ -1,6 +1,6 @@
 Meta:
-@author Kseniia
-@themes UI Usability
+@smoke
+@main_functions,
 
 Narrative:
 As a user
@@ -23,8 +23,9 @@ And user clicks on the 'Log in' button on the login popup
 Then user Kseniia is logged in
 
 Scenario: Search is working. Appropriate products are shown after search
-When user types Asus in the search field
-And user clicks on the Search button
-When page products is fully loaded
+Meta:
+@search
+When user searches for Asus
+And page products is fully loaded
 Then the products are shown
 

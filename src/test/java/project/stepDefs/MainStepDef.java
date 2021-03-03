@@ -1,9 +1,6 @@
 package project.stepDefs;
 
-import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.Named;
-import org.jbehave.core.annotations.Then;
-import org.jbehave.core.annotations.When;
+import org.jbehave.core.annotations.*;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
@@ -46,6 +43,11 @@ public class MainStepDef extends Steps {
         }
     }
 
+    @When("user clicks on search button")
+    public void userClicksOnTheSearchButton() {
+        ScenarioContext.context().getCurrentPage().getHeader().clickSearchButton();
+    }
+
     @When("user clicks on the $buttonName button")
     public void userClicksOnTheButtonNameButton(String buttonName) {
         ScenarioContext.context().getCurrentPage().getHeader().clickOnButtonByName(buttonName);
@@ -59,23 +61,20 @@ public class MainStepDef extends Steps {
     @Then("popup with login form is shown")
     public void popupWithLoginFormIsShown() {
         LoginWindow loginWindow = ScenarioContext.context().getCurrentPage().getLoginPopup();
-
         Assert.assertTrue("The modal window with login form is not shown", loginWindow.isShown());
     }
 
-    @Given("<user> Kseniia is logged in")
-    @Then("user <user> is logged in")
-    public void userUserIsLoggedIn(@Named("user") String user) {
-        Boolean userIsLoggedIn = ScenarioContext.context().getCurrentPage().getHeader().isUserLoggedIn(user);
-
-        Assert.assertTrue("The user is not logged in.", userIsLoggedIn);
+    @When("user searches for $productName")
+    @Alias("user searches for <productName>")
+    @Composite(steps = {
+            "When user types <productName> in the search field",
+            "And user clicks on search button"})
+    public void whenUserSearchesForProductName(@Named("productName") String productName) {
     }
 
     @Then("user $user is logged in")
     public void userIsLoggedIn(String user) {
         Boolean userIsLoggedIn = ScenarioContext.context().getCurrentPage().getHeader().isUserLoggedIn(user);
-
         Assert.assertTrue("The user is not logged in.", userIsLoggedIn);
     }
-
 }

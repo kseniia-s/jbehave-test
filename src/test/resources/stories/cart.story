@@ -12,8 +12,8 @@ Given an opened browser with an https://rozetka.com.ua/
 When page home page is fully loaded
 
 Scenario: Chosen items are added to cart
-When user clicks on the Каталог товаров button
-And user clicks on the Ноутбуки category
+When user clicks on the products catalog button
+And user clicks on the Laptops category
 And page products is fully loaded
 Then the products are shown
 When user clicks on cart icon of 1 products
