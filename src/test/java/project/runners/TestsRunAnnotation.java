@@ -7,6 +7,7 @@ import org.jbehave.core.annotations.UsingEmbedder;
 import org.jbehave.core.annotations.UsingSteps;
 import org.jbehave.core.embedder.Embedder;
 import org.jbehave.core.embedder.StoryControls;
+import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryFinder;
 import org.jbehave.core.junit.AnnotatedEmbedderRunner;
@@ -21,11 +22,9 @@ import java.util.stream.Collectors;
 
 @RunWith(AnnotatedEmbedderRunner.class)
 @Configure(storyControls = TestsRunAnnotation.MyStoryControls.class, storyLoader = TestsRunAnnotation.MyStoryLoader.class)
-@UsingEmbedder(threads = 3, ignoreFailureInStories = true, ignoreFailureInView = false, verboseFailures = true, metaFilters = "-skip")
+@UsingEmbedder(ignoreFailureInStories = true, ignoreFailureInView = true, verboseFailures = true, metaFilters = "-skip")
 @UsingSteps(packages = "project.stepDefs")
-//@UsingSteps(packages = "project.stepDefs", matchingNames = ".*steps", notMatchingNames = "")
 public class TestsRunAnnotation extends InjectableEmbedder {
-//public class TestsRunAnnotation extends InjectableEmbedder, implements Embeddable{
 
     private List<BrowserType> browserList;
 
@@ -72,7 +71,6 @@ public class TestsRunAnnotation extends InjectableEmbedder {
     }
 
     private List<String> storyPaths() {
-//        List<String> storyPaths = new StoryFinder().findPaths(codeLocationFromClass(this.getClass()), "**/*.story", "");
         return new StoryFinder().findPaths(CodeLocations.codeLocationFromClass(
                         this.getClass()),
                         Collections.singletonList("**/*.story"),

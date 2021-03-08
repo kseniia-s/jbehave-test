@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import static org.jbehave.core.reporters.Format.CONSOLE;
 import static org.jbehave.core.reporters.Format.HTML;
+import static org.jbehave.core.reporters.Format.XML;
 
 public class MyReportBuilder extends StoryReporterBuilder {
     private final CrossReference xref = new CrossReference();
