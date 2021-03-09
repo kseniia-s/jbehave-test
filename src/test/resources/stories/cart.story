@@ -32,4 +32,4 @@ Then the amount to be paid is changed
 
 !-- Scenario: User can delete product from cart
 !-- Given Kseniia previously ordered a product
-!-- When a Asus is added to the cart
+!-- When Asus is added to the cart

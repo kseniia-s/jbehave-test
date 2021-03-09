@@ -27,13 +27,6 @@
             <version>3.141.59</version>
         </dependency>
 
-        <!--    &lt;!&ndash; https://mvnrepository.com/artifact/org.seleniumhq.webdriver/webdriver-common &ndash;&gt;-->
-        <!--    <dependency>-->
-        <!--      <groupId>org.seleniumhq.webdriver</groupId>-->
-        <!--      <artifactId>webdriver-common</artifactId>-->
-        <!--      <version>0.9.7376</version>-->
-        <!--    </dependency>-->
-
         <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
@@ -136,18 +129,18 @@
                 </configuration>
             </plugin>
             <plugin>
-            <groupId>org.jbehave</groupId>
-            <artifactId>jbehave-maven-plugin</artifactId>
-            <version>${jbehave.version}</version>
-            <executions>
-                <execution>
-                    <id>unpack-view-resources-chrome</id>
-                    <phase>generate-resources</phase>
-                    <goals>
-                        <goal>unpack-view-resources</goal>
-                    </goals>
-                </execution>
-            </executions>
+                <groupId>org.jbehave</groupId>
+                <artifactId>jbehave-maven-plugin</artifactId>
+                <version>${jbehave.version}</version>
+                <executions>
+                    <execution>
+                        <id>unpack-view-resources-chrome</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-view-resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -204,7 +197,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 </project>
