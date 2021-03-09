@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 
 @RunWith(JUnit4.class)
 public class TestsRunJUnit {
-//    public class TestsRunJUnit extends JUnitStory {
-//public class TestsRunJUnit extends JUnitStories {
 
     private List<BrowserType> browserList;
     private BatchFailures failuresList = new BatchFailures();

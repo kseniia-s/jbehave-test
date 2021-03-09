@@ -21,7 +21,7 @@ When user fills required fields in login form:
 |milawka.ksu@gmail.com|Rozetka.com17|
 And user clicks on the 'Log in' button on the login popup
 Then user clicks on the menu button in the top right side
-And user Ксения Семёнова is logged in
+And user Kseniia Semenova is logged in
 
 Scenario: Search is working. Appropriate products are shown after search
 Meta:

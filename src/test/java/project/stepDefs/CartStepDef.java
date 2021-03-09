@@ -1,16 +1,15 @@
 package project.stepDefs;
 
-import org.jbehave.core.annotations.*;
+import org.jbehave.core.annotations.Named;
+import org.jbehave.core.annotations.Pending;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
-import org.openqa.selenium.WebElement;
 import project.pageObjects.ProductsPage;
 import project.pageObjects.components.CartProduct;
 import project.pageObjects.components.popups.Cart;
 import project.settings.ScenarioContext;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class CartStepDef extends Steps {
     @When("user clicks on @buttonName button in the top")
@@ -87,8 +86,9 @@ public class CartStepDef extends Steps {
         ScenarioContext.context().setData("full price for product", currentFullPriceForProduct);
     }
 
-    @When("a <product> is added to the cart")
-    public void aProductIsAddedToCart(@Named("product") String product) {
+    @Pending
+    @When("<product> is added to the cart")
+    public void productIsAddedToCart(@Named("product") String product) {
         Cart cart = ScenarioContext.context().getCurrentPage().getHeader().openCart();
         boolean productInCart = cart.getProducts().stream().noneMatch(item -> item.getName().getText().contains(product));
 

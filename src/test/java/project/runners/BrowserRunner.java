@@ -17,6 +17,7 @@ import project.settings.BrowserType;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 public class BrowserRunner extends ConfigurableEmbedder {
 
@@ -50,7 +51,7 @@ public class BrowserRunner extends ConfigurableEmbedder {
             embedder.runStoriesAsPaths(storyPaths());
         } finally {
             embedder.generateCrossReference();
-//            embedder.generateSurefireReport();
+            embedder.generateSurefireReport();
         }
     }
 
@@ -60,18 +61,8 @@ public class BrowserRunner extends ConfigurableEmbedder {
         viewResources.put("decorateNonHtml", "true");
 
         return new MostUsefulConfiguration()
-//                .useCompositePaths(Sets.newHashSet("Composite.steps"))
                 .useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()))
                 .useStoryReporterBuilder(new MyReportBuilder())
-//                        new StoryReporterBuilder()
-//                                .withCodeLocation(CodeLocations.codeLocationFromClass(this.getClass()))
-//                                .withDefaultFormats()
-//                                .withPathResolver(new FilePrintStreamFactory.ResolveToPackagedName())
-//                                .withViewResources(viewResources)
-//                                .withFormats(CONSOLE, HTML)
-//                                .withFailureTrace(true)
-//                                .withFailureTraceCompression(true)
-//                                .withCrossReference(xref))
                 .useViewGenerator(new FreemarkerViewGenerator());
     }
 

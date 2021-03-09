@@ -75,13 +75,6 @@ public class FiltersPanel extends BaseItem {
                     found
                             .orElseThrow(() -> new RuntimeException("No value found. Value: " + v))
                             .click();
-//                    getManufacturersList()
-//                            .stream()
-//                            .filter(i->i.getText().equals(v))
-//                            .findFirst()
-//                            .orElseThrow(() -> new RuntimeException("No value found "+ v))
-//                            .click();
-//                    WaitHelpers.waitDefaultTimeToWait();
                     break;
                 case PRICE_MIN:
                     clearMinPriceField();
